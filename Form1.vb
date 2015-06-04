@@ -1,6 +1,8 @@
 ﻿Public Class Form1
 
 
+    Public joueur As New Vaisseau(New Point(50, 250)) ' Créer un joueur
+    Public pnlJeu As New Panel()   ' Créer panel de jeu
 
 #Region "Classes"
 
@@ -18,6 +20,8 @@
 
         Private vitesse As Integer      ' Vitesse de deplacement du joueur
 
+        Private missiles As New List(Of Missile)
+
         ''' <summary>
         ''' Constructeur
         ''' </summary>
@@ -26,10 +30,11 @@
         ''' <remarks></remarks>
         Sub New(ByVal pos As Point) ' Constructeur
             position = pos
-            vitesse = 50
+            vitesse = 20
 
             img.Image = Image.FromFile("../../img/vaisseau.png")
             taille = img.Size
+
         End Sub
 
         ''' <summary>
@@ -43,15 +48,41 @@
         End Function
 
         ''' <summary>
-        ''' 
+        ''' Change la position du joueur en fct de sa vitesse et direction
         ''' </summary>
-        ''' <param name="deplacement"></param>
+        ''' <param name="deplacement">Direction du deplacement (-1 | 1)</param>
         ''' <remarks></remarks>
         Sub deplacement(ByVal deplacement As Integer)
             position.X += vitesse * deplacement
             img.Location = position
         End Sub
 
+        ''' <summary>
+        ''' Declenche le lancement d'un missile 
+        ''' </summary>
+        ''' <remarks></remarks>
+        Sub tirer()
+            missiles.Add(New Missile(New Point(position.X + (taille.Width / 2), position.Y - taille.Height)))
+        End Sub
+
+    End Class
+
+    Class Missile
+        Private position As New Point() ' Position du missile
+        Private taille As New Size()    ' Taille du missile
+
+        Private vitesse As Integer  ' Vitesse deplacement missile
+
+        Private img As New PictureBox()   ' Image du missile
+
+        Sub New(ByVal pos As Point)
+            Me.img.Image = Image.FromFile("../../img/missile.png")
+            Me.position = pos
+            Me.taille = img.Size
+            img.Location = position
+            Form1.pnlJeu.Controls.Add(img)
+            Console.WriteLine(position)
+        End Sub
     End Class
 
 #End Region
@@ -77,9 +108,6 @@
     End Sub
 
 #End Region
-
-    Dim joueur As New Vaisseau(New Point(50, 250)) ' Créer un joueur
-    Dim pnlJeu As New Panel()   ' Créer panel de jeu
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         tmrJeu.Interval = 30
