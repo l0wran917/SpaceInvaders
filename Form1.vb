@@ -1,8 +1,8 @@
 ﻿Public Class Form1
 
 
-    Public joueur As New Vaisseau(New Point(50, 250)) ' Créer un joueur
-    Public pnlJeu As New Panel()   ' Créer panel de jeu
+    Public joueur As New Vaisseau(New Point(50, 650)) ' Créer un joueur
+    Private whiteBrush As New SolidBrush(Color.White)
 
 #Region "Classes"
 
@@ -62,8 +62,13 @@
         ''' </summary>
         ''' <remarks></remarks>
         Sub tirer()
-            missiles.Add(New Missile(New Point(position.X + (taille.Width / 2), position.Y - taille.Height)))
+            missiles.Add(New Missile(New Point(position.X + 31, position.Y)))
         End Sub
+
+        Public Function getMissiles()
+            Return missiles
+        End Function
+
 
     End Class
 
@@ -73,16 +78,29 @@
 
         Private vitesse As Integer  ' Vitesse deplacement missile
 
-        Private img As New PictureBox()   ' Image du missile
-
         Sub New(ByVal pos As Point)
-            Me.img.Image = Image.FromFile("../../img/missile.png")
-            Me.position = pos
-            Me.taille = img.Size
-            img.Location = position
-            Form1.pnlJeu.Controls.Add(img)
-            Console.WriteLine(position)
+            Me.taille = New Size(5, 15)
+            Me.position = pos - New Size(0, taille.Height)
+            vitesse = 7
         End Sub
+
+
+        ''' <summary>
+        ''' Fait avancer le missile vers les ennemis
+        ''' </summary>
+        ''' <remarks></remarks>
+        Public Sub deplacer()
+            position.Y -= vitesse
+        End Sub
+
+        ''' <summary>
+        ''' Retourne le rectangle formé par le missile pour l'affichage
+        ''' </summary>
+        ''' <returns>Rectangle formé par le missile</returns>
+        ''' <remarks></remarks>
+        Public Function getRectangle()
+            Return New Rectangle(position.X, position.Y, taille.Width, taille.Height)
+        End Function
     End Class
 
 #End Region
@@ -107,6 +125,18 @@
 
     End Sub
 
+    Public Sub event_paint(ByVal sender As Object, ByVal e As PaintEventArgs) Handles pnlJeu.Paint
+        Dim g As Graphics = e.Graphics
+
+        ' AntiAliasing
+        g.SmoothingMode = Drawing2D.SmoothingMode.HighQuality
+        ' On affiche chaque missile
+        For Each missile As Missile In joueur.getMissiles
+            g.FillRectangle(whiteBrush, missile.getRectangle())
+        Next
+
+    End Sub
+
 #End Region
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -117,12 +147,19 @@
         pnlJeu.BackColor = Color.Cyan
         pnlJeu.Controls.Add(joueur.getPictureBox())
 
-
         Me.Controls.Add(pnlJeu)
     End Sub
 
 
     Private Sub tmrJeuTick(sender As Object, e As EventArgs) Handles tmrJeu.Tick
+
+        For Each missile As Missile In joueur.getMissiles
+            missile.deplacer()
+        Next
+
+        Console.WriteLine(Me.Size)
+
         pnlJeu.Refresh()
     End Sub
+
 End Class

@@ -24,21 +24,31 @@ Partial Class Form1
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Me.tmrJeu = New System.Windows.Forms.Timer(Me.components)
+        Me.pnlJeu = New System.Windows.Forms.Panel()
         Me.SuspendLayout()
         '
         'tmrJeu
         '
         '
+        'pnlJeu
+        '
+        Me.pnlJeu.Location = New System.Drawing.Point(0, 0)
+        Me.pnlJeu.Name = "pnlJeu"
+        Me.pnlJeu.Size = New System.Drawing.Size(460, 354)
+        Me.pnlJeu.TabIndex = 0
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(461, 354)
+        Me.ClientSize = New System.Drawing.Size(894, 721)
+        Me.Controls.Add(Me.pnlJeu)
         Me.Name = "Form1"
         Me.Text = "Form1"
         Me.ResumeLayout(False)
 
     End Sub
     Friend WithEvents tmrJeu As System.Windows.Forms.Timer
+    Friend WithEvents pnlJeu As System.Windows.Forms.Panel
 
 End Class
