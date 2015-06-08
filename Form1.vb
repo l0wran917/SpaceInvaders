@@ -104,8 +104,8 @@
 
         For e = 0 To joueur.getMissiles().Count - 1
             For i = 0 To FlowPnlAliens.Controls.Count - 1
-                Dim missileTmp = joueur.getMissiles.Item(e)
-                Dim alienTmp = FlowPnlAliens.Controls.Item(i)
+                Dim missileTmp As Missile = joueur.getMissiles.Item(e)
+                Dim alienTmp As Alien = FlowPnlAliens.Controls.Item(i)
 
                 Dim posAlien = alienTmp.Location + FlowPnlAliens.Location
                 Dim posMissile = New Point(missileTmp.Location.X, missileTmp.Location.Y)
@@ -113,7 +113,7 @@
                 If (posMissile.Y > posAlien.Y And posMissile.Y < posAlien.Y + alienTmp.Size.Height) And
                     (posMissile.X > posAlien.X And posMissile.X + missileTmp.Size.Width < posAlien.X + alienTmp.Size.Width) Then
 
-                    CType(alienTmp, Alien).Image = Nothing
+                    alienTmp.Image = Nothing
 
                 End If
             Next
