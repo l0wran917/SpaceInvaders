@@ -1,109 +1,22 @@
 ﻿Public Class Form1
 
+    Dim joueur As New Vaisseau(New Point(50, 650)) ' Créer un joueur
+    Dim whiteBrush As New SolidBrush(Color.White)
 
-    Public joueur As New Vaisseau(New Point(50, 650)) ' Créer un joueur
-    Private whiteBrush As New SolidBrush(Color.White)
+    Dim nbLignes As Integer = 3
+    Dim nbColonnes As Integer = 5
 
-#Region "Classes"
+    Dim vitesseDeplacementAliens = 10
+    Dim distanceDescenteAliens = 15
+
+    Dim directionAliens = 1
+
+    Dim nbAliensVivant = 0
 
     ''' <summary>
     ''' Classe representant le vaisseau du joueur
     ''' </summary>
     ''' <remarks></remarks>
-    Class Vaisseau
-        Private position As New Point() ' Position du joueur
-        Private taille As New Size()    ' Taille du joueur
-
-        Private img As New PictureBox() ' Img du joueur
-
-        Private scrore As Integer       ' Score du joueur
-
-        Private vitesse As Integer      ' Vitesse de deplacement du joueur
-
-        Private missiles As New List(Of Missile)
-
-        ''' <summary>
-        ''' Constructeur
-        ''' </summary>
-        ''' <param name="pos">Position du joeuur</param>
-        ''' <param name="tailleJoueur">Taille du joueur</param>
-        ''' <remarks></remarks>
-        Sub New(ByVal pos As Point) ' Constructeur
-            position = pos
-            vitesse = 20
-
-            img.Image = Image.FromFile("../../img/vaisseau.png")
-            taille = img.Size
-
-        End Sub
-
-        ''' <summary>
-        ''' Getter pour obtenir la pictureBox au bon endroit
-        ''' </summary>
-        ''' <returns>Image du joueur</returns>
-        ''' <remarks></remarks>
-        Function getPictureBox()        ' Retourne pictureBox
-            img.Location = position
-            Return img
-        End Function
-
-        ''' <summary>
-        ''' Change la position du joueur en fct de sa vitesse et direction
-        ''' </summary>
-        ''' <param name="deplacement">Direction du deplacement (-1 | 1)</param>
-        ''' <remarks></remarks>
-        Sub deplacement(ByVal deplacement As Integer)
-            position.X += vitesse * deplacement
-            img.Location = position
-        End Sub
-
-        ''' <summary>
-        ''' Declenche le lancement d'un missile 
-        ''' </summary>
-        ''' <remarks></remarks>
-        Sub tirer()
-            missiles.Add(New Missile(New Point(position.X + 31, position.Y)))
-        End Sub
-
-        Public Function getMissiles()
-            Return missiles
-        End Function
-
-
-    End Class
-
-    Class Missile
-        Private position As New Point() ' Position du missile
-        Private taille As New Size()    ' Taille du missile
-
-        Private vitesse As Integer  ' Vitesse deplacement missile
-
-        Sub New(ByVal pos As Point)
-            Me.taille = New Size(5, 15)
-            Me.position = pos - New Size(0, taille.Height)
-            vitesse = 7
-        End Sub
-
-
-        ''' <summary>
-        ''' Fait avancer le missile vers les ennemis
-        ''' </summary>
-        ''' <remarks></remarks>
-        Public Sub deplacer()
-            position.Y -= vitesse
-        End Sub
-
-        ''' <summary>
-        ''' Retourne le rectangle formé par le missile pour l'affichage
-        ''' </summary>
-        ''' <returns>Rectangle formé par le missile</returns>
-        ''' <remarks></remarks>
-        Public Function getRectangle()
-            Return New Rectangle(position.X, position.Y, taille.Width, taille.Height)
-        End Function
-    End Class
-
-#End Region
 
 #Region "Procedure evenementielle"
 
@@ -125,17 +38,6 @@
 
     End Sub
 
-    Public Sub event_paint(ByVal sender As Object, ByVal e As PaintEventArgs) Handles pnlJeu.Paint
-        Dim g As Graphics = e.Graphics
-
-        ' AntiAliasing
-        g.SmoothingMode = Drawing2D.SmoothingMode.HighQuality
-        ' On affiche chaque missile
-        For Each missile As Missile In joueur.getMissiles
-            g.FillRectangle(whiteBrush, missile.getRectangle())
-        Next
-
-    End Sub
 
 #End Region
 
@@ -147,19 +49,96 @@
         pnlJeu.BackColor = Color.Cyan
         pnlJeu.Controls.Add(joueur.getPictureBox())
 
+        initEnnemis()
+
         Me.Controls.Add(pnlJeu)
     End Sub
 
+    ''' <summary>
+    ''' Initialise le FlowLayoutPanel
+    ''' </summary>
+    ''' <remarks></remarks>
+    Public Sub initEnnemis()
+        Dim i As Integer = 0
+        Dim e As Integer = 0
 
+        Dim imgAlien = New PictureBox()
+        imgAlien.Image = Image.FromFile("../../img/alien.png")
+
+        Me.FlowPnlAliens.Width = (imgAlien.Width + 10) * nbColonnes
+        Me.FlowPnlAliens.Height = (imgAlien.Height + 5) * nbLignes
+
+        For i = 0 To nbColonnes
+            For e = 0 To nbLignes
+                Me.FlowPnlAliens.Controls.Add(New Alien())
+                nbAliensVivant += 1
+            Next
+        Next
+
+
+    End Sub
+
+    ''' <summary>
+    ''' Rafraichissement de la position des aliens à chaque tick
+    ''' </summary>
+    ''' <remarks></remarks>
+    Public Sub deplacerAliens()
+        Dim posAliens = FlowPnlAliens.Location
+
+        If (posAliens.X + vitesseDeplacementAliens + FlowPnlAliens.Size.Width > Me.Width) Then
+            posAliens.Y += distanceDescenteAliens
+            directionAliens *= -1
+        ElseIf (posAliens.X + vitesseDeplacementAliens < 0) Then
+            posAliens.Y += distanceDescenteAliens
+            directionAliens *= -1
+        End If
+
+        posAliens.X += directionAliens * vitesseDeplacementAliens
+
+        FlowPnlAliens.Location = posAliens
+
+    End Sub
+
+    Private Sub testCollision()
+        Dim i As Integer
+
+        For e = 0 To joueur.getMissiles().Count - 1
+            For i = 0 To FlowPnlAliens.Controls.Count - 1
+                Dim missileTmp = joueur.getMissiles.Item(e)
+                Dim alienTmp = FlowPnlAliens.Controls.Item(i)
+
+                Dim posAlien = alienTmp.Location + FlowPnlAliens.Location
+                Dim posMissile = New Point(missileTmp.getRectangle().X, missileTmp.getRectangle().Y)
+
+                If (posMissile.Y > posAlien.Y And posMissile.Y < posAlien.Y + alienTmp.Size.Height) And
+                    (posMissile.X > posAlien.X And posMissile.X + missileTmp.getRectangle().Width < posAlien.X + alienTmp.Size.Width) Then
+
+                    CType(alienTmp, Alien).Image = Image.FromFile("../../img/alien2.png")
+
+                End If
+            Next
+        Next
+
+        Console.WriteLine(FlowPnlAliens.Controls.Item(0).Location + FlowPnlAliens.Location)
+    End Sub
+
+    ''' <summary>
+    ''' Timer du jeu
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
     Private Sub tmrJeuTick(sender As Object, e As EventArgs) Handles tmrJeu.Tick
+
+        deplacerAliens()
 
         For Each missile As Missile In joueur.getMissiles
             missile.deplacer()
         Next
 
-        Console.WriteLine(Me.Size)
-
         pnlJeu.Refresh()
+
+        testCollision()
     End Sub
 
 End Class
