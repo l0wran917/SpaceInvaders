@@ -108,18 +108,17 @@
                 Dim alienTmp = FlowPnlAliens.Controls.Item(i)
 
                 Dim posAlien = alienTmp.Location + FlowPnlAliens.Location
-                Dim posMissile = New Point(missileTmp.getRectangle().X, missileTmp.getRectangle().Y)
+                Dim posMissile = New Point(missileTmp.Location.X, missileTmp.Location.Y)
 
                 If (posMissile.Y > posAlien.Y And posMissile.Y < posAlien.Y + alienTmp.Size.Height) And
-                    (posMissile.X > posAlien.X And posMissile.X + missileTmp.getRectangle().Width < posAlien.X + alienTmp.Size.Width) Then
+                    (posMissile.X > posAlien.X And posMissile.X + missileTmp.Size.Width < posAlien.X + alienTmp.Size.Width) Then
 
-                    CType(alienTmp, Alien).Image = Image.FromFile("../../img/alien2.png")
+                    CType(alienTmp, Alien).Image = Nothing
 
                 End If
             Next
         Next
 
-        Console.WriteLine(FlowPnlAliens.Controls.Item(0).Location + FlowPnlAliens.Location)
     End Sub
 
     ''' <summary>
