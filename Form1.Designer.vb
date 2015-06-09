@@ -42,7 +42,7 @@ Partial Class Form1
         '
         'FlowPnlAliens
         '
-        Me.FlowPnlAliens.Location = New System.Drawing.Point(80, 79)
+        Me.FlowPnlAliens.Location = New System.Drawing.Point(12, 12)
         Me.FlowPnlAliens.Name = "FlowPnlAliens"
         Me.FlowPnlAliens.Size = New System.Drawing.Size(200, 100)
         Me.FlowPnlAliens.TabIndex = 0

@@ -42,12 +42,14 @@
 #End Region
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        tmrJeu.Interval = 30
+        tmrJeu.Interval = 60
         tmrJeu.Enabled = True
 
         pnlJeu.Size = New Size(Me.Width, Me.Height)
         pnlJeu.BackColor = Color.Cyan
         pnlJeu.Controls.Add(joueur.getPictureBox())
+
+        FlowPnlAliens.BackColor = Color.Yellow
 
         initEnnemis()
 
@@ -102,20 +104,23 @@
     Private Sub testCollision()
         Dim i As Integer
 
+        Console.WriteLine(FlowPnlAliens.Controls.Item(0).Location)
+
         For e = 0 To joueur.getMissiles().Count - 1
             For i = 0 To FlowPnlAliens.Controls.Count - 1
                 Dim missileTmp As Missile = joueur.getMissiles.Item(e)
                 Dim alienTmp As Alien = FlowPnlAliens.Controls.Item(i)
 
-                Dim posAlien = alienTmp.Location + FlowPnlAliens.Location
+                Dim posAlien = FlowPnlAliens.Location + alienTmp.Location
                 Dim posMissile = New Point(missileTmp.Location.X, missileTmp.Location.Y)
 
-                If (posMissile.Y > posAlien.Y And posMissile.Y < posAlien.Y + alienTmp.Size.Height) And
-                    (posMissile.X > posAlien.X And posMissile.X + missileTmp.Size.Width < posAlien.X + alienTmp.Size.Width) Then
-
-                    alienTmp.Image = Nothing
-
+                ' Img => En bas à gauche
+                If (posMissile.Y + missileTmp.Size.Height < posAlien.Y) And (posMissile.X > posAlien.X) And (posMissile.X + missileTmp.Size.Width < posAlien.X + alienTmp.Size.Width) Then
+                    CType(FlowPnlAliens.Controls.Item(i), Alien).Image = Image.FromFile("../../img/alien2.png")
+                    missileTmp.ntm()
+                    missileTmp.Hide()
                 End If
+
             Next
         Next
 
