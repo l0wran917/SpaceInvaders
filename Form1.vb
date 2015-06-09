@@ -49,8 +49,6 @@
         pnlJeu.BackColor = Color.Cyan
         pnlJeu.Controls.Add(joueur.getPictureBox())
 
-        FlowPnlAliens.BackColor = Color.Yellow
-
         initEnnemis()
 
         Me.Controls.Add(pnlJeu)
@@ -102,48 +100,29 @@
     End Sub
 
     Private Sub testCollision()
-        Dim i As Integer
+        Dim collision As Boolean
 
         Console.WriteLine(FlowPnlAliens.Controls.Item(0).Location)
 
-        For e = 0 To joueur.getMissiles().Count - 1
-            For i = 0 To FlowPnlAliens.Controls.Count - 1
-                Dim missileTmp As Missile = joueur.getMissiles.Item(e)
-                Dim alienTmp As Alien = FlowPnlAliens.Controls.Item(i)
+        For Each missile In joueur.getMissiles
 
-                Dim posAlien = FlowPnlAliens.Location + alienTmp.Location
-                Dim posMissile = New Point(missileTmp.Location.X, missileTmp.Location.Y)
+            collision = False
+            For Each alien In FlowPnlAliens.Controls
 
-                '
-                'collision = False
-                '' For Each PictureBox In Me.Controls
-                ''If PictureBox IsNot PictureBox1 AndAlso PictureBox1.Bounds.IntersectsWith(PictureBox.Bounds) Then
-                'collision = True
-                'Exit For
-                'End If
-                'Next
-                '
-                'For Each PictureBox In Me.Controls
-                'If PictureBox IsNot PictureBox1 AndAlso PictureBox1.Bounds.IntersectsWith(PictureBox.Bounds) Then
-                'collision = True
-                'Exit For 'Exit when at least one collision found 
-                'Else : collision = False
-                'End If
-                'Next
-                '
-                '
-                '
-                '
+                Dim rectAlien = alien.Bounds
+                rectAlien.X += FlowPnlAliens.Location.X
+                rectAlien.Y += FlowPnlAliens.Location.Y
 
-                ' Img => En bas à gauche
-                If (posMissile.Y + missileTmp.Size.Height < posAlien.Y) And (posMissile.X > posAlien.X) And (posMissile.X + missileTmp.Size.Width < posAlien.X + alienTmp.Size.Width) Then
-
-                    CType(FlowPnlAliens.Controls.Item(i), Alien).Image = Image.FromFile("../../img/alien2.png")
-
-                    missileTmp.Hide()
+                If missile.Bounds.IntersectsWith(rectAlien) Then
+                    collision = True
+                    CType(alien, Alien).Image = Nothing ' Image.FromFile("../../img/alien2.png")
                 End If
 
+                If (collision) Then
+                    'CType(missile, Missile).desactiver()
+                End If
             Next
+
         Next
 
     End Sub
