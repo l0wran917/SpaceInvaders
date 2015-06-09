@@ -114,10 +114,32 @@
                 Dim posAlien = FlowPnlAliens.Location + alienTmp.Location
                 Dim posMissile = New Point(missileTmp.Location.X, missileTmp.Location.Y)
 
+                '
+                'collision = False
+                '' For Each PictureBox In Me.Controls
+                ''If PictureBox IsNot PictureBox1 AndAlso PictureBox1.Bounds.IntersectsWith(PictureBox.Bounds) Then
+                'collision = True
+                'Exit For
+                'End If
+                'Next
+                '
+                'For Each PictureBox In Me.Controls
+                'If PictureBox IsNot PictureBox1 AndAlso PictureBox1.Bounds.IntersectsWith(PictureBox.Bounds) Then
+                'collision = True
+                'Exit For 'Exit when at least one collision found 
+                'Else : collision = False
+                'End If
+                'Next
+                '
+                '
+                '
+                '
+
                 ' Img => En bas à gauche
                 If (posMissile.Y + missileTmp.Size.Height < posAlien.Y) And (posMissile.X > posAlien.X) And (posMissile.X + missileTmp.Size.Width < posAlien.X + alienTmp.Size.Width) Then
+
                     CType(FlowPnlAliens.Controls.Item(i), Alien).Image = Image.FromFile("../../img/alien2.png")
-                    missileTmp.ntm()
+
                     missileTmp.Hide()
                 End If
 
