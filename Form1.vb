@@ -1,149 +1,37 @@
 ﻿Public Class Form1
 
-    Dim joueur As New Vaisseau(New Point(50, 650)) ' Créer un joueur
-    Dim whiteBrush As New SolidBrush(Color.White)
+    Dim tmrJeu As Timer
+    Dim joueur As Vaisseau
+    Dim aliens As GestionAliens
 
-    Dim nbLignes As Integer = 3
-    Dim nbColonnes As Integer = 5
+    Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        tmrJeu = New Timer()
+        joueur = New Vaisseau()
+        aliens = New GestionAliens(2, 5)
 
-    Dim vitesseDeplacementAliens = 10
-    Dim distanceDescenteAliens = 15
+        tmrJeu.Interval = 30
+        tmrJeu.Start()
+        AddHandler tmrJeu.Tick, AddressOf event_Tick ' Association fct reflexe au tick
 
-    Dim directionAliens = 1
+        pnlJeu.Controls.Add(joueur)
+    End Sub
 
-    Dim nbAliensVivant = 0
+    Private Sub event_Clavier(ByVal sender As Object, ByVal e As KeyEventArgs) Handles MyBase.KeyDown
 
-    ''' <summary>
-    ''' Classe representant le vaisseau du joueur
-    ''' </summary>
-    ''' <remarks></remarks>
-
-#Region "Procedure evenementielle"
-
-    ''' <summary>
-    ''' Procedure appellé lors de l'appui sur une touche
-    ''' </summary>
-    ''' <param name="sender">Objet declancheur de l'event</param>
-    ''' <param name="e">Touche appuyé</param>
-    ''' <remarks></remarks>
-    Public Sub event_keyDown(ByVal sender As Object, ByVal e As KeyEventArgs) Handles MyBase.KeyDown
-
-        If e.KeyCode = Keys.Right Then
-            joueur.deplacement(1)
-        ElseIf e.KeyCode = Keys.Left Then
-            joueur.deplacement(-1)
-        ElseIf e.KeyCode = Keys.Space Then
+        If (e.KeyCode = Keys.Left) Then
+            joueur.deplacer(-1)
+        ElseIf (e.KeyCode = Keys.Right) Then
+            joueur.deplacer(1)
+        ElseIf (e.KeyCode = Keys.Space) Then
             joueur.tirer()
         End If
 
     End Sub
 
+    Private Sub event_Tick(ByVal sender As Object, ByVal e As EventArgs)
+        joueur.deplacerMissile()
+        aliens.collision(joueur.getMissile())
 
-#End Region
-
-    Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        tmrJeu.Interval = 60
-        tmrJeu.Enabled = True
-
-        pnlJeu.Size = New Size(Me.Width, Me.Height)
-        pnlJeu.BackColor = Color.Cyan
-        pnlJeu.Controls.Add(joueur.getPictureBox())
-
-        initEnnemis()
-
-        Me.Controls.Add(pnlJeu)
-    End Sub
-
-    ''' <summary>
-    ''' Initialise le FlowLayoutPanel
-    ''' </summary>
-    ''' <remarks></remarks>
-    Public Sub initEnnemis()
-        Dim i As Integer = 0
-        Dim e As Integer = 0
-
-        Dim imgAlien = New PictureBox()
-        imgAlien.Image = Image.FromFile("../../img/alien.png")
-
-        Me.FlowPnlAliens.Width = (imgAlien.Width + 10) * nbColonnes
-        Me.FlowPnlAliens.Height = (imgAlien.Height + 5) * nbLignes
-
-        For i = 0 To nbColonnes
-            For e = 0 To nbLignes
-                Me.FlowPnlAliens.Controls.Add(New Alien())
-                nbAliensVivant += 1
-            Next
-        Next
-
-
-    End Sub
-
-    ''' <summary>
-    ''' Rafraichissement de la position des aliens à chaque tick
-    ''' </summary>
-    ''' <remarks></remarks>
-    Public Sub deplacerAliens()
-        Dim posAliens = FlowPnlAliens.Location
-
-        If (posAliens.X + vitesseDeplacementAliens + FlowPnlAliens.Size.Width > Me.Width) Then
-            posAliens.Y += distanceDescenteAliens
-            directionAliens *= -1
-        ElseIf (posAliens.X + vitesseDeplacementAliens < 0) Then
-            posAliens.Y += distanceDescenteAliens
-            directionAliens *= -1
-        End If
-
-        posAliens.X += directionAliens * vitesseDeplacementAliens
-
-        FlowPnlAliens.Location = posAliens
-
-    End Sub
-
-    Private Sub testCollision()
-        Dim collision As Boolean
-
-        Console.WriteLine(FlowPnlAliens.Controls.Item(0).Location)
-
-        For Each missile In joueur.getMissiles
-
-            collision = False
-            For Each alien In FlowPnlAliens.Controls
-
-                Dim rectAlien = alien.Bounds
-                rectAlien.X += FlowPnlAliens.Location.X
-                rectAlien.Y += FlowPnlAliens.Location.Y
-
-                If missile.Bounds.IntersectsWith(rectAlien) Then
-                    collision = True
-                    CType(alien, Alien).Image = Nothing ' Image.FromFile("../../img/alien2.png")
-                End If
-
-                If (collision) Then
-                    'CType(missile, Missile).desactiver()
-                End If
-            Next
-
-        Next
-
-    End Sub
-
-    ''' <summary>
-    ''' Timer du jeu
-    ''' </summary>
-    ''' <param name="sender"></param>
-    ''' <param name="e"></param>
-    ''' <remarks></remarks>
-    Private Sub tmrJeuTick(sender As Object, e As EventArgs) Handles tmrJeu.Tick
-
-        deplacerAliens()
-
-        For Each missile As Missile In joueur.getMissiles
-            missile.deplacer()
-        Next
-
-        pnlJeu.Refresh()
-
-        testCollision()
     End Sub
 
 End Class

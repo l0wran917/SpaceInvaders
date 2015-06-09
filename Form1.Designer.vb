@@ -22,45 +22,27 @@ Partial Class Form1
     'Ne la modifiez pas à l'aide de l'éditeur de code.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container()
-        Me.tmrJeu = New System.Windows.Forms.Timer(Me.components)
         Me.pnlJeu = New System.Windows.Forms.Panel()
-        Me.FlowPnlAliens = New System.Windows.Forms.FlowLayoutPanel()
-        Me.pnlJeu.SuspendLayout()
         Me.SuspendLayout()
-        '
-        'tmrJeu
-        '
         '
         'pnlJeu
         '
-        Me.pnlJeu.Controls.Add(Me.FlowPnlAliens)
         Me.pnlJeu.Location = New System.Drawing.Point(0, 0)
         Me.pnlJeu.Name = "pnlJeu"
-        Me.pnlJeu.Size = New System.Drawing.Size(460, 354)
+        Me.pnlJeu.Size = New System.Drawing.Size(787, 564)
         Me.pnlJeu.TabIndex = 0
-        '
-        'FlowPnlAliens
-        '
-        Me.FlowPnlAliens.Location = New System.Drawing.Point(12, 12)
-        Me.FlowPnlAliens.Name = "FlowPnlAliens"
-        Me.FlowPnlAliens.Size = New System.Drawing.Size(200, 100)
-        Me.FlowPnlAliens.TabIndex = 0
         '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(894, 721)
+        Me.ClientSize = New System.Drawing.Size(788, 564)
         Me.Controls.Add(Me.pnlJeu)
         Me.Name = "Form1"
         Me.Text = "Form1"
-        Me.pnlJeu.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
-    Friend WithEvents tmrJeu As System.Windows.Forms.Timer
     Friend WithEvents pnlJeu As System.Windows.Forms.Panel
-    Friend WithEvents FlowPnlAliens As System.Windows.Forms.FlowLayoutPanel
 
 End Class
