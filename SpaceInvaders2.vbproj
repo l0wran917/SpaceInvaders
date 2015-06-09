@@ -124,6 +124,7 @@
     <Content Include="img\alien.png" />
     <Content Include="img\alien2.png" />
     <Content Include="img\missile.png" />
+    <Content Include="img\test.png" />
     <Content Include="img\vaisseau.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

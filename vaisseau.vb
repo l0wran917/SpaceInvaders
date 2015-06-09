@@ -2,7 +2,7 @@
     Inherits PictureBox
 
     Dim vitesse As Integer = 20
-    Dim missile As Missile
+    Public missile As Missile
 
     Sub New()
         Image = Image.FromFile("../../img/vaisseau.png")

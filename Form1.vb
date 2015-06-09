@@ -7,7 +7,7 @@
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         tmrJeu = New Timer()
         joueur = New Vaisseau()
-        aliens = New GestionAliens(2, 5)
+        aliens = New GestionAliens(5, 6)
 
         tmrJeu.Interval = 30
         tmrJeu.Start()
@@ -29,8 +29,9 @@
     End Sub
 
     Private Sub event_Tick(ByVal sender As Object, ByVal e As EventArgs)
+        aliens.deplacer()
         joueur.deplacerMissile()
-        aliens.collision(joueur.getMissile())
+        aliens.collision(joueur)
 
     End Sub
 
