@@ -8,9 +8,11 @@
     Dim tailleZoneEnnemi As Size
     Dim direction As Integer = 1
 
-    Dim vitesse As New Point(5, 8)
+    Dim vitesse As New Point(10, 20)
 
     Dim posGroupe As Point
+
+    Dim perdu As Boolean = False
 
     Sub New(ByVal nbLigne As Integer, ByVal nbColonne As Integer)
         initAliens(nbLigne, nbColonne)
@@ -55,9 +57,8 @@
 
         Dim missile As Missile = joueur.missile
 
-        If (Not missile Is Nothing) Then
-
-            For Each alien In aliens
+        For Each alien In aliens
+            If (Not missile Is Nothing) Then
                 If alien.Bounds.IntersectsWith(missile.Bounds) Then
 
                     joueur.supprimerMissile(True) ' Supprime le missile
@@ -67,9 +68,12 @@
 
                     Exit For
                 End If
-            Next
+            End If
 
-        End If
+            perdu = (alien.Bounds.IntersectsWith(joueur.getZoneJeu()))
+        Next
+
+
     End Sub
 
     Sub deplacer()
@@ -90,6 +94,14 @@
 
         posGroupe += deplacement
     End Sub
+
+    Function getNbAliens()
+        Return aliens.Count
+    End Function
+
+    Function getPerdu()
+        Return perdu
+    End Function
 
 
 End Class

@@ -1,6 +1,6 @@
 ﻿Public Class Form1
 
-    Dim tmrJeu As Timer
+    Private tmrJeu As Timer
     Dim joueur As Vaisseau
     Dim aliens As GestionAliens
 
@@ -9,7 +9,7 @@
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         tmrJeu = New Timer()
         joueur = New Vaisseau()
-        aliens = New GestionAliens(5, 6)
+        aliens = New GestionAliens(7, 2)
 
         tmrJeu.Interval = 30
         tmrJeu.Start()
@@ -42,6 +42,23 @@
         joueur.deplacerMissile()
         aliens.collision(joueur)
         lblScore.Text = joueur.getScore()
+
+        finJeu()
+
+    End Sub
+
+    Private Sub finJeu()
+        If (aliens.getNbAliens() = 0) Then
+            tmrJeu.Stop()
+            Me.Controls.Remove(pnlJeu)
+            MsgBox("Gagney")
+        End If
+
+        If (aliens.getPerdu()) Then
+            tmrJeu.Stop()
+            Me.Controls.Remove(pnlJeu)
+            MsgBox("Perdu")
+        End If
 
     End Sub
 

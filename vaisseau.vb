@@ -52,4 +52,15 @@
         Return "Score : " + score.ToString()
     End Function
 
+    Function getZoneJeu()
+        Dim zoneJoueur As New Rectangle()
+        zoneJoueur.X = 0
+        zoneJoueur.Y = Me.Location.Y
+        zoneJoueur.Width = Form1.pnlJeu.Width
+        zoneJoueur.Height = Form1.pnlJeu.Width - (Form1.pnlJeu.Height - Me.Location.Y)
+
+        Return zoneJoueur
+
+    End Function
+
 End Class
