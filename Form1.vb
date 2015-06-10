@@ -57,42 +57,49 @@
     ''' <param name="e"></param>
     ''' <remarks></remarks>
     Private Sub lancementPartie(ByVal sender As Object, ByVal e As EventArgs) Handles btnJouer.Click
-        ' Redimensionne la fenetre
-        ' Met à la bonne position le panel de jeu
-        Me.Size = New Size(600, 500)
-        pnlJeu.Size = Me.Size
-        pnlJeu.Location = New Point(0, 0)
+        ' Verifie que les reglages sont précisé
+        If (cmbDifficulte.SelectedIndex = -1) Then
+            MsgBox("Veuillez choisir une difficulté")
+        ElseIf (Not chxIllimite.Checked And txtNbMissile.Text.Length = 0) Then
+            MsgBox("Nombre de missiles incorrect")
+        Else
+            ' Redimensionne la fenetre
+            ' Met à la bonne position le panel de jeu
+            Me.Size = New Size(600, 500)
+            pnlJeu.Size = Me.Size
+            pnlJeu.Location = New Point(0, 0)
 
-        ' Declare le timer, le joueur et les aliens
-        tmrJeu = New Timer()
-        joueur = New Vaisseau()
-        aliens = New GestionAliens(4, 6)
+            ' Declare le timer, le joueur et les aliens
+            tmrJeu = New Timer()
+            joueur = New Vaisseau()
+            aliens = New GestionAliens(4, 6)
 
-        ' Initialisation du label pour le score
-        lblScore = New Label()
-        lblScore.Text = "Score :"
-        lblScore.Font = New Font("Arial", 22)
-        lblScore.AutoSize = True
-        lblScore.Location = New Point(pnlJeu.Width - lblScore.Width - 80, 5)
+            ' Initialisation du label pour le score
+            lblScore = New Label()
+            lblScore.Text = "Score :"
+            lblScore.Font = New Font("Arial", 22)
+            lblScore.AutoSize = True
+            lblScore.Location = New Point(pnlJeu.Width - lblScore.Width - 80, 5)
 
-        ' Config du timer + activation
-        tmrJeu.Interval = 30
-        AddHandler tmrJeu.Tick, AddressOf event_Tick ' Association fct reflexe au tick
+            ' Config du timer + activation
+            tmrJeu.Interval = 30
+            AddHandler tmrJeu.Tick, AddressOf event_Tick ' Association fct reflexe au tick
 
-        ' Desactivation btns du menu (Sinon ils gardent le focus)
-        btnJouer.Enabled = False
-        btnQuitter.Enabled = False
+            ' Desactivation btns du menu (Sinon ils gardent le focus)
+            btnJouer.Enabled = False
+            btnQuitter.Enabled = False
 
-        ' Supprime le menu
-        Me.Controls.Remove(pnlMenu)
+            ' Supprime le menu
+            Me.Controls.Remove(pnlMenu)
 
-        ' Affiche le panel de jeu
-        pnlJeu.Controls.Add(lblScore)
-        pnlJeu.Controls.Add(joueur)
-        Me.Controls.Add(pnlJeu)
+            ' Affiche le panel de jeu
+            pnlJeu.Controls.Add(lblScore)
+            pnlJeu.Controls.Add(joueur)
+            Me.Controls.Add(pnlJeu)
 
-        ' Lance le timer
-        tmrJeu.Start()
+            ' Lance le timer
+            tmrJeu.Start()
+        End If
     End Sub
 
     ''' <summary>
@@ -155,7 +162,6 @@
         ' Affiche menu
         Me.Controls.Add(pnlMenu)
     End Sub
-
 
 
 End Class
