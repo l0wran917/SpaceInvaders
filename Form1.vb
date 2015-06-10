@@ -54,6 +54,12 @@
         btnJouer.Enabled = True
         btnQuitter.Enabled = True
         Me.Size = New Size(378, 231)
+        aliens.supprimerAliens()
+        pnlJeu.Controls.Remove(joueur)
+        pnlJeu.Controls.Remove(lblScore)
+        If (Not joueur.missile Is Nothing) Then
+            pnlJeu.Controls.Remove(joueur.missile)
+        End If
     End Sub
 
     Private Sub lancementPartie()

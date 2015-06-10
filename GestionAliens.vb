@@ -102,5 +102,11 @@
         Return perdu
     End Function
 
+    Sub supprimerAliens()
+        For Each alien As Alien In aliens
+            Form1.pnlJeu.Controls.Remove(alien)
+        Next
+    End Sub
+
 
 End Class
