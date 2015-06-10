@@ -8,7 +8,7 @@
     Dim tailleZoneEnnemi As Size
     Dim direction As Integer = 1
 
-    Dim vitesse As New Point(20, 20)
+    Dim vitesse As New Point(8, 15)
 
     Dim posGroupe As Point
 

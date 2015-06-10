@@ -57,7 +57,7 @@
     End Sub
 
     Private Sub lancementPartie()
-        Me.Size = New Size(700, 800)
+        Me.Size = New Size(500, 400)
         pnlJeu.Size = Me.Size
         pnlJeu.Location = New Point(0, 0)
 
