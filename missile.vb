@@ -17,7 +17,7 @@
         If (Location.Y > 0) Then
             Location = New Point(Location.X, Location.Y - vitesse)
         Else
-            tireur.supprimerMissile()
+            tireur.supprimerMissile(False)
         End If
 
         BringToFront() ' Affiche les missiles au 1er plan

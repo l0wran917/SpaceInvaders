@@ -21,7 +21,7 @@
         Me.nbLigne = nbLigne
         Me.nbColonne = nbColonne
 
-        Dim pos As New Point(15, 15)
+        Dim pos As New Point(15, 40)
         posGroupe = pos
 
         Dim alienRef As New Alien(pos)
@@ -60,7 +60,7 @@
             For Each alien In aliens
                 If alien.Bounds.IntersectsWith(missile.Bounds) Then
 
-                    joueur.supprimerMissile() ' Supprime le missile
+                    joueur.supprimerMissile(True) ' Supprime le missile
 
                     Form1.pnlJeu.Controls.Remove(alien) ' Supprime l'alien
                     aliens.Remove(alien)

@@ -4,6 +4,8 @@
     Dim vitesse As Integer = 20
     Public missile As Missile
 
+    Dim score As Integer = 0
+
     Sub New()
         Image = Image.FromFile("../../img/vaisseau.png")
         Size = Image.Size
@@ -37,13 +39,17 @@
         End If
     End Sub
 
-    Sub supprimerMissile()
+    Sub supprimerMissile(ByVal ennemiTue As Boolean)
+        If (ennemiTue) Then
+            score += 10
+        End If
+
         Form1.pnlJeu.Controls.Remove(missile)
         missile = Nothing
     End Sub
 
-    Function getMissile()
-        Return missile
+    Function getScore()
+        Return "Score : " + score.ToString()
     End Function
 
 End Class
