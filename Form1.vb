@@ -86,8 +86,9 @@
             AddHandler tmrJeu.Tick, AddressOf event_Tick ' Association fct reflexe au tick
 
             ' Desactivation btns du menu (Sinon ils gardent le focus)
-            btnJouer.Enabled = False
-            btnQuitter.Enabled = False
+            For Each element As Object In pnlMenu.Controls
+
+            Next
 
             ' Supprime le menu
             Me.Controls.Remove(pnlMenu)
