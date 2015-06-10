@@ -23,13 +23,13 @@ Partial Class Form1
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.pnlMenu = New System.Windows.Forms.Panel()
+        Me.lblNbMissile = New System.Windows.Forms.Label()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.chxIllimite = New System.Windows.Forms.CheckBox()
+        Me.txtNbMissile = New System.Windows.Forms.TextBox()
+        Me.cmbDifficulte = New System.Windows.Forms.ComboBox()
         Me.btnQuitter = New System.Windows.Forms.Button()
         Me.btnJouer = New System.Windows.Forms.Button()
-        Me.cmbDifficulte = New System.Windows.Forms.ComboBox()
-        Me.txtNbMissile = New System.Windows.Forms.TextBox()
-        Me.chxIllimite = New System.Windows.Forms.CheckBox()
-        Me.Label1 = New System.Windows.Forms.Label()
-        Me.lblNbMissile = New System.Windows.Forms.Label()
         Me.pnlMenu.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -48,6 +48,50 @@ Partial Class Form1
         Me.pnlMenu.Size = New System.Drawing.Size(362, 254)
         Me.pnlMenu.TabIndex = 0
         '
+        'lblNbMissile
+        '
+        Me.lblNbMissile.AutoSize = True
+        Me.lblNbMissile.Location = New System.Drawing.Point(42, 59)
+        Me.lblNbMissile.Name = "lblNbMissile"
+        Me.lblNbMissile.Size = New System.Drawing.Size(88, 13)
+        Me.lblNbMissile.TabIndex = 6
+        Me.lblNbMissile.Text = "Nombre missiles :"
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(42, 32)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(57, 13)
+        Me.Label1.TabIndex = 5
+        Me.Label1.Text = "Difficulté : "
+        '
+        'chxIllimite
+        '
+        Me.chxIllimite.AutoSize = True
+        Me.chxIllimite.Location = New System.Drawing.Point(257, 58)
+        Me.chxIllimite.Name = "chxIllimite"
+        Me.chxIllimite.Size = New System.Drawing.Size(53, 17)
+        Me.chxIllimite.TabIndex = 4
+        Me.chxIllimite.Text = "illimité"
+        Me.chxIllimite.UseVisualStyleBackColor = True
+        '
+        'txtNbMissile
+        '
+        Me.txtNbMissile.Location = New System.Drawing.Point(136, 56)
+        Me.txtNbMissile.Name = "txtNbMissile"
+        Me.txtNbMissile.Size = New System.Drawing.Size(115, 20)
+        Me.txtNbMissile.TabIndex = 3
+        '
+        'cmbDifficulte
+        '
+        Me.cmbDifficulte.FormattingEnabled = True
+        Me.cmbDifficulte.Items.AddRange(New Object() {"Tutoriel", "Facile", "Normal", "Difficile", "Impossible"})
+        Me.cmbDifficulte.Location = New System.Drawing.Point(115, 29)
+        Me.cmbDifficulte.Name = "cmbDifficulte"
+        Me.cmbDifficulte.Size = New System.Drawing.Size(195, 21)
+        Me.cmbDifficulte.TabIndex = 2
+        '
         'btnQuitter
         '
         Me.btnQuitter.Location = New System.Drawing.Point(45, 186)
@@ -65,50 +109,6 @@ Partial Class Form1
         Me.btnJouer.TabIndex = 0
         Me.btnJouer.Text = "Jouer"
         Me.btnJouer.UseVisualStyleBackColor = True
-        '
-        'cmbDifficulte
-        '
-        Me.cmbDifficulte.FormattingEnabled = True
-        Me.cmbDifficulte.Items.AddRange(New Object() {"Tutoriel", "Facile", "Normal", "Difficile", "Impossible"})
-        Me.cmbDifficulte.Location = New System.Drawing.Point(115, 29)
-        Me.cmbDifficulte.Name = "cmbDifficulte"
-        Me.cmbDifficulte.Size = New System.Drawing.Size(195, 21)
-        Me.cmbDifficulte.TabIndex = 2
-        '
-        'txtNbMissile
-        '
-        Me.txtNbMissile.Location = New System.Drawing.Point(136, 56)
-        Me.txtNbMissile.Name = "txtNbMissile"
-        Me.txtNbMissile.Size = New System.Drawing.Size(115, 20)
-        Me.txtNbMissile.TabIndex = 3
-        '
-        'chxIllimite
-        '
-        Me.chxIllimite.AutoSize = True
-        Me.chxIllimite.Location = New System.Drawing.Point(257, 58)
-        Me.chxIllimite.Name = "chxIllimite"
-        Me.chxIllimite.Size = New System.Drawing.Size(53, 17)
-        Me.chxIllimite.TabIndex = 4
-        Me.chxIllimite.Text = "illimité"
-        Me.chxIllimite.UseVisualStyleBackColor = True
-        '
-        'Label1
-        '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(42, 32)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(57, 13)
-        Me.Label1.TabIndex = 5
-        Me.Label1.Text = "Difficulté : "
-        '
-        'lblNbMissile
-        '
-        Me.lblNbMissile.AutoSize = True
-        Me.lblNbMissile.Location = New System.Drawing.Point(42, 59)
-        Me.lblNbMissile.Name = "lblNbMissile"
-        Me.lblNbMissile.Size = New System.Drawing.Size(88, 13)
-        Me.lblNbMissile.TabIndex = 6
-        Me.lblNbMissile.Text = "Nombre missiles :"
         '
         'Form1
         '

@@ -7,7 +7,7 @@
 
     Dim direction As Integer = 1 ' Direction du deplacement (Droite / Gauche)
 
-    Dim vitesse As New Point(8, 15) ' Vitesse deplacement en X et Y
+    Dim vitesse As Point ' Vitesse deplacement en X et Y
 
     Dim posGroupe As Point ' Position de la zone qui contient tous les aliens
     Dim tailleZoneEnnemi As Size ' Taille de la zone qui contient tous les aliens
@@ -20,8 +20,8 @@
     ''' <param name="nbLigne">Nb ligne d'alien</param>
     ''' <param name="nbColonne">Nb alien par ligne</param>
     ''' <remarks></remarks>
-    Sub New(ByVal nbLigne As Integer, ByVal nbColonne As Integer)
-        initAliens(nbLigne, nbColonne)
+    Sub New()
+        initAliens()
     End Sub
 
     ''' <summary>
@@ -30,10 +30,30 @@
     ''' <param name="nbLigne">Nb ligne d'alien</param>
     ''' <param name="nbColonne">Nb alien par ligne</param>
     ''' <remarks></remarks>
-    Sub initAliens(ByVal nbLigne As Integer, ByVal nbColonne As Integer)
+    Sub initAliens()
 
-        Me.nbLigne = nbLigne
-        Me.nbColonne = nbColonne
+        Console.WriteLine(Form1.cmbDifficulte.SelectedIndex)
+        If (Form1.cmbDifficulte.SelectedIndex = 0) Then ' Tuto
+            Me.vitesse = New Point(0, 0)
+            Me.nbLigne = 3
+            Me.nbColonne = 9
+        ElseIf (Form1.cmbDifficulte.SelectedIndex = 1) Then ' Facile
+            Me.vitesse = New Point(5, 8)
+            Me.nbLigne = 3
+            Me.nbColonne = 5
+        ElseIf (Form1.cmbDifficulte.SelectedIndex = 2) Then ' Normal
+            Me.vitesse = New Point(8, 15)
+            Me.nbLigne = 4
+            Me.nbColonne = 5
+        ElseIf (Form1.cmbDifficulte.SelectedIndex = 3) Then ' Difficile
+            Me.vitesse = New Point(10, 15)
+            Me.nbLigne = 4
+            Me.nbColonne = 7
+        ElseIf (Form1.cmbDifficulte.SelectedIndex = 4) Then ' Impossible
+            Me.vitesse = New Point(20, 20)
+            Me.nbLigne = 6
+            Me.nbColonne = 8
+        End If
 
         Dim pos As New Point(15, 40)
         posGroupe = pos

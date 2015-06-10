@@ -6,6 +6,8 @@
 
     Dim score As Integer = 0 ' Score actuel
 
+    Dim missileRestant As Integer = 0 ' Nb Missiles restant
+
     ''' <summary>
     ''' Constructeur (Charge img + position)
     ''' </summary>
@@ -15,6 +17,12 @@
         Size = Image.Size
 
         Location = New Point(10, Form1.pnlJeu.Height - Image.Height - 55) ' 15 px du bord inferieur de la fenetre
+
+        If (Form1.chxIllimite.Checked) Then
+            missileRestant = -1
+        Else
+            missileRestant = Form1.txtNbMissile.Text
+        End If
     End Sub
 
     ''' <summary>
@@ -38,11 +46,13 @@
     ''' </summary>
     ''' <remarks></remarks>
     Sub tirer()
-        If (missile Is Nothing) Then
-            Dim missile As New Missile(Me)
-            Me.missile = missile
-            Form1.pnlJeu.Controls.Add(missile)
-
+        If (missileRestant > 0) Then
+            If (missile Is Nothing) Then
+                Dim missile As New Missile(Me)
+                Me.missile = missile
+                Form1.pnlJeu.Controls.Add(missile)
+                missileRestant -= 1
+            End If
         End If
     End Sub
 
@@ -93,6 +103,19 @@
         zoneJoueur.Height = Form1.pnlJeu.Width - (Form1.pnlJeu.Height - Me.Location.Y)
 
         Return zoneJoueur
+    End Function
+
+    ''' <summary>
+    ''' Retourne le nombre de missiles restant
+    ''' </summary>
+    ''' <returns>String de la forme => Missiles restants : x</returns>
+    ''' <remarks></remarks>
+    Function getMissilesRestant() As String
+        If (missileRestant < 0) Then
+            Return "Missiles restants : Illimité"
+        Else
+            Return "Missiles restants : " + missileRestant.ToString
+        End If
     End Function
 
 End Class

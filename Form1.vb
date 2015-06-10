@@ -7,6 +7,7 @@
     Public pnlJeu As New Panel() ' Panel qui contient tous les aliens et le joueur
 
     Dim lblScore As Label
+    Dim lblMissileRestant As Label
 
 #Region "Fonctions evenementielles"
 
@@ -45,6 +46,9 @@
         ' Actualise les scores
         lblScore.Text = joueur.getScore()
 
+        'Actualise les missiles restants
+        lblMissileRestant.Text = joueur.getMissilesRestant()
+
         ' Test si la partie est terminée
         finJeu()
 
@@ -72,14 +76,21 @@
             ' Declare le timer, le joueur et les aliens
             tmrJeu = New Timer()
             joueur = New Vaisseau()
-            aliens = New GestionAliens(4, 6)
+            aliens = New GestionAliens()
 
             ' Initialisation du label pour le score
             lblScore = New Label()
             lblScore.Text = "Score :"
-            lblScore.Font = New Font("Arial", 22)
+            lblScore.Font = New Font("Arial", 16)
             lblScore.AutoSize = True
             lblScore.Location = New Point(pnlJeu.Width - lblScore.Width - 80, 5)
+
+            ' Declare le label nb Missile
+            lblMissileRestant = New Label()
+            lblMissileRestant.Text = "Missile Restant : "
+            lblMissileRestant.Font = New Font("Arial", 16)
+            lblMissileRestant.AutoSize = True
+            lblMissileRestant.Location = New Point(0, 5)
 
             ' Config du timer + activation
             tmrJeu.Interval = 30
@@ -87,7 +98,7 @@
 
             ' Desactivation btns du menu (Sinon ils gardent le focus)
             For Each element As Object In pnlMenu.Controls
-
+                element.Enabled = False
             Next
 
             ' Supprime le menu
@@ -95,6 +106,7 @@
 
             ' Affiche le panel de jeu
             pnlJeu.Controls.Add(lblScore)
+            pnlJeu.Controls.Add(lblMissileRestant)
             pnlJeu.Controls.Add(joueur)
             Me.Controls.Add(pnlJeu)
 
@@ -143,11 +155,12 @@
         tmrJeu.Stop()
 
         ' Réactive les boutons du menu
-        btnJouer.Enabled = True
-        btnQuitter.Enabled = True
+        For Each element As Object In pnlMenu.Controls
+            element.Enabled = True
+        Next
 
         'Redimensionne la fenetre
-        Me.Size = New Size(378, 231)
+        Me.Size = New Size(378, 292)
 
         'Supprime les elements de jeu
         Me.Controls.Remove(pnlJeu)
@@ -165,4 +178,9 @@
     End Sub
 
 
+    Private Sub txtNbMissile_TextChanged(sender As Object, e As EventArgs) Handles txtNbMissile.TextChanged
+        If (Not IsNumeric(CType(sender, TextBox).Text)) Then
+            CType(sender, TextBox).Text = ""
+        End If
+    End Sub
 End Class
