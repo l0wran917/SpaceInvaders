@@ -8,7 +8,7 @@
     Dim tailleZoneEnnemi As Size
     Dim direction As Integer = 1
 
-    Dim vitesse As New Point(10, 20)
+    Dim vitesse As New Point(20, 20)
 
     Dim posGroupe As Point
 
@@ -37,7 +37,6 @@
         tailleZoneEnnemi.Width = (tailleAlien.Width * nbColonne) + (espaceEntreAliens.Width * (nbColonne - 1))
         tailleZoneEnnemi.Height = (tailleAlien.Height * nbLigne) + (espaceEntreAliens.Height * (nbLigne - 1))
 
-        Console.WriteLine(tailleZoneEnnemi)
 
         Form1.pnlJeu.Controls.Remove(alienRef) ' Supprime l'alien de reference du panel
         For i As Integer = 1 To nbLigne

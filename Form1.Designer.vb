@@ -22,27 +22,54 @@ Partial Class Form1
     'Ne la modifiez pas à l'aide de l'éditeur de code.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.pnlJeu = New System.Windows.Forms.Panel()
+        Me.pnlMenu = New System.Windows.Forms.Panel()
+        Me.btnJouer = New System.Windows.Forms.Button()
+        Me.btnQuitter = New System.Windows.Forms.Button()
+        Me.pnlMenu.SuspendLayout()
         Me.SuspendLayout()
         '
-        'pnlJeu
+        'pnlMenu
         '
-        Me.pnlJeu.Location = New System.Drawing.Point(0, 0)
-        Me.pnlJeu.Name = "pnlJeu"
-        Me.pnlJeu.Size = New System.Drawing.Size(787, 564)
-        Me.pnlJeu.TabIndex = 0
+        Me.pnlMenu.BackColor = System.Drawing.SystemColors.ActiveCaption
+        Me.pnlMenu.Controls.Add(Me.btnQuitter)
+        Me.pnlMenu.Controls.Add(Me.btnJouer)
+        Me.pnlMenu.Location = New System.Drawing.Point(0, 0)
+        Me.pnlMenu.Name = "pnlMenu"
+        Me.pnlMenu.Size = New System.Drawing.Size(362, 193)
+        Me.pnlMenu.TabIndex = 0
+        '
+        'btnJouer
+        '
+        Me.btnJouer.Location = New System.Drawing.Point(45, 31)
+        Me.btnJouer.Name = "btnJouer"
+        Me.btnJouer.Size = New System.Drawing.Size(265, 46)
+        Me.btnJouer.TabIndex = 0
+        Me.btnJouer.Text = "Jouer"
+        Me.btnJouer.UseVisualStyleBackColor = True
+        '
+        'btnQuitter
+        '
+        Me.btnQuitter.Location = New System.Drawing.Point(45, 105)
+        Me.btnQuitter.Name = "btnQuitter"
+        Me.btnQuitter.Size = New System.Drawing.Size(265, 46)
+        Me.btnQuitter.TabIndex = 1
+        Me.btnQuitter.Text = "Quitter"
+        Me.btnQuitter.UseVisualStyleBackColor = True
         '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(788, 564)
-        Me.Controls.Add(Me.pnlJeu)
+        Me.ClientSize = New System.Drawing.Size(362, 192)
+        Me.Controls.Add(Me.pnlMenu)
         Me.Name = "Form1"
         Me.Text = "Form1"
+        Me.pnlMenu.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
-    Friend WithEvents pnlJeu As System.Windows.Forms.Panel
+    Friend WithEvents pnlMenu As System.Windows.Forms.Panel
+    Friend WithEvents btnJouer As System.Windows.Forms.Button
+    Friend WithEvents btnQuitter As System.Windows.Forms.Button
 
 End Class

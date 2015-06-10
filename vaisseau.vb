@@ -10,7 +10,7 @@
         Image = Image.FromFile("../../img/vaisseau.png")
         Size = Image.Size
 
-        Location = New Point(10, Form1.pnlJeu.Height - Image.Height - 15) ' 15 px du bord inferieur de la fenetre
+        Location = New Point(10, Form1.pnlJeu.Height - Image.Height - 55) ' 15 px du bord inferieur de la fenetre
     End Sub
 
     Sub deplacer(ByVal direction As Integer)
