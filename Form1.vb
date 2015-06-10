@@ -1,45 +1,125 @@
 ﻿Public Class Form1
 
-    Private tmrJeu As Timer
-    Dim joueur As Vaisseau
-    Dim aliens As GestionAliens
+    Private tmrJeu As Timer ' Timer qui envoi un tick pour boucle du jeu
+    Dim joueur As Vaisseau ' Vaisseau du joueur
+    Dim aliens As GestionAliens ' Objet qui contient tous les aliens
 
-    Public pnlJeu As New Panel()
+    Public pnlJeu As New Panel() ' Panel qui contient tous les aliens et le joueur
 
     Dim lblScore As Label
 
-    Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        
-    End Sub
+#Region "Fonctions evenementielles"
 
+    ''' <summary>
+    ''' Gestion controles du joueur (deplacement + tirer)
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
     Private Sub event_Clavier(ByVal sender As Object, ByVal e As KeyEventArgs) Handles MyBase.KeyDown
 
         If (e.KeyCode = Keys.Left) Then
-            joueur.deplacer(-1)
+            joueur.deplacer(-1) ' Deplacement vers la gauche 
         ElseIf (e.KeyCode = Keys.Right) Then
-            joueur.deplacer(1)
+            joueur.deplacer(1) ' Deplacement vers la droite
         ElseIf (e.KeyCode = Keys.Space) Then
-            joueur.tirer()
+            joueur.tirer() ' Lancement du missile
         End If
 
     End Sub
 
+    ''' <summary>
+    ''' Reflexe du timer (boucle du jeu)
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
     Private Sub event_Tick(ByVal sender As Object, ByVal e As EventArgs)
+        ' Deplacement aliens + missile
         aliens.deplacer()
         joueur.deplacerMissile()
+
+        ' Test si missile touche alien et si alien touche zone joueur
         aliens.collision(joueur)
+
+        ' Actualise les scores
         lblScore.Text = joueur.getScore()
 
+        ' Test si la partie est terminée
         finJeu()
 
     End Sub
 
+    ''' <summary>
+    ''' Fonction lancement de la partie (clic sur btn jouer)
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
+    Private Sub lancementPartie(ByVal sender As Object, ByVal e As EventArgs) Handles btnJouer.Click
+        ' Redimensionne la fenetre
+        ' Met à la bonne position le panel de jeu
+        Me.Size = New Size(600, 500)
+        pnlJeu.Size = Me.Size
+        pnlJeu.Location = New Point(0, 0)
+
+        ' Declare le timer, le joueur et les aliens
+        tmrJeu = New Timer()
+        joueur = New Vaisseau()
+        aliens = New GestionAliens(4, 6)
+
+        ' Initialisation du label pour le score
+        lblScore = New Label()
+        lblScore.Text = "Score :"
+        lblScore.Font = New Font("Arial", 22)
+        lblScore.AutoSize = True
+        lblScore.Location = New Point(pnlJeu.Width - lblScore.Width - 80, 5)
+
+        ' Config du timer + activation
+        tmrJeu.Interval = 30
+        AddHandler tmrJeu.Tick, AddressOf event_Tick ' Association fct reflexe au tick
+
+        ' Desactivation btns du menu (Sinon ils gardent le focus)
+        btnJouer.Enabled = False
+        btnQuitter.Enabled = False
+
+        ' Supprime le menu
+        Me.Controls.Remove(pnlMenu)
+
+        ' Affiche le panel de jeu
+        pnlJeu.Controls.Add(lblScore)
+        pnlJeu.Controls.Add(joueur)
+        Me.Controls.Add(pnlJeu)
+
+        ' Lance le timer
+        tmrJeu.Start()
+    End Sub
+
+    ''' <summary>
+    ''' Fermeture du programme
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
+    Private Sub btnQuitter_Click(sender As Object, e As EventArgs) Handles btnQuitter.Click
+        Me.Dispose()
+    End Sub
+
+#End Region
+
+    ''' <summary>
+    ''' Test si le joueur a gagné ou perdu
+    ''' </summary>
+    ''' <remarks></remarks>
+    ''' 
     Private Sub finJeu()
+        ' Si il n'y a plus d'aliens
         If (aliens.getNbAliens() = 0) Then
             afficherMenu()
             MsgBox("Gagné !")
         End If
 
+        ' Si les aliens touchent la zone du joueur
         If (aliens.getPerdu()) Then
             afficherMenu()
             MsgBox("Perdu")
@@ -47,55 +127,35 @@
 
     End Sub
 
+    ''' <summary>
+    ''' Masque le panel et affiche le menu
+    ''' </summary>
+    ''' <remarks></remarks>
     Private Sub afficherMenu()
         tmrJeu.Stop()
-        Me.Controls.Remove(pnlJeu)
-        Me.Controls.Add(pnlMenu)
+
+        ' Réactive les boutons du menu
         btnJouer.Enabled = True
         btnQuitter.Enabled = True
+
+        'Redimensionne la fenetre
         Me.Size = New Size(378, 231)
-        aliens.supprimerAliens()
+
+        'Supprime les elements de jeu
+        Me.Controls.Remove(pnlJeu)
         pnlJeu.Controls.Remove(joueur)
         pnlJeu.Controls.Remove(lblScore)
+        aliens.supprimerAliens()
+
+        ' Si le missile existe, on le supprime
         If (Not joueur.missile Is Nothing) Then
             pnlJeu.Controls.Remove(joueur.missile)
         End If
-    End Sub
 
-    Private Sub lancementPartie()
-        Me.Size = New Size(600, 500)
-        pnlJeu.Size = Me.Size
-        pnlJeu.Location = New Point(0, 0)
-
-        tmrJeu = New Timer()
-        joueur = New Vaisseau()
-        aliens = New GestionAliens(4, 6)
-
-        lblScore = New Label()
-        lblScore.Text = "Score :"
-        lblScore.Font = New Font("Arial", 22)
-        lblScore.AutoSize = True
-        lblScore.Location = New Point(pnlJeu.Width - lblScore.Width - 80, 5)
-        pnlJeu.Controls.Add(lblScore)
-
-        pnlJeu.Controls.Add(joueur)
-        tmrJeu.Interval = 30
-        AddHandler tmrJeu.Tick, AddressOf event_Tick ' Association fct reflexe au tick
-
-        btnJouer.Enabled = False
-        btnQuitter.Enabled = False
-
-        Me.Controls.Remove(pnlMenu)
-        Me.Controls.Add(pnlJeu)
-        tmrJeu.Start()
+        ' Affiche menu
+        Me.Controls.Add(pnlMenu)
     End Sub
 
 
-    Private Sub btnJouer_Click(sender As Object, e As EventArgs) Handles btnJouer.Click
-        lancementPartie()
-    End Sub
 
-    Private Sub btnQuitter_Click(sender As Object, e As EventArgs) Handles btnQuitter.Click
-        Me.Dispose()
-    End Sub
 End Class
