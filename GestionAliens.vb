@@ -1,23 +1,35 @@
 ﻿Public Class GestionAliens
 
-    Dim aliens As New List(Of Alien)
+    Dim aliens As New List(Of Alien) ' Liste d'alien
 
-    Dim nbColonne As Integer
-    Dim nbLigne As Integer
+    Dim nbColonne As Integer ' nb Alien sur une colone
+    Dim nbLigne As Integer ' nb alien sur une ligne
 
-    Dim tailleZoneEnnemi As Size
-    Dim direction As Integer = 1
+    Dim direction As Integer = 1 ' Direction du deplacement (Droite / Gauche)
 
-    Dim vitesse As New Point(8, 15)
+    Dim vitesse As New Point(8, 15) ' Vitesse deplacement en X et Y
 
-    Dim posGroupe As Point
+    Dim posGroupe As Point ' Position de la zone qui contient tous les aliens
+    Dim tailleZoneEnnemi As Size ' Taille de la zone qui contient tous les aliens
 
-    Dim perdu As Boolean = False
+    Dim perdu As Boolean = False ' Si le joueur à perdu
 
+    ''' <summary>
+    ''' Constructeur
+    ''' </summary>
+    ''' <param name="nbLigne">Nb ligne d'alien</param>
+    ''' <param name="nbColonne">Nb alien par ligne</param>
+    ''' <remarks></remarks>
     Sub New(ByVal nbLigne As Integer, ByVal nbColonne As Integer)
         initAliens(nbLigne, nbColonne)
     End Sub
 
+    ''' <summary>
+    ''' Genere les aliens
+    ''' </summary>
+    ''' <param name="nbLigne">Nb ligne d'alien</param>
+    ''' <param name="nbColonne">Nb alien par ligne</param>
+    ''' <remarks></remarks>
     Sub initAliens(ByVal nbLigne As Integer, ByVal nbColonne As Integer)
 
         Me.nbLigne = nbLigne
@@ -52,6 +64,12 @@
 
     End Sub
 
+
+    ''' <summary>
+    ''' Test collision entre missile et aliens et entre aliens et zone joueur
+    ''' </summary>
+    ''' <param name="joueur">joueur pour recuperer la zone du joueur</param>
+    ''' <remarks></remarks>
     Sub collision(ByRef joueur As Vaisseau)
 
         Dim missile As Missile = joueur.missile
@@ -75,6 +93,10 @@
 
     End Sub
 
+    ''' <summary>
+    ''' Deplace tous les aliens en fonction de la direction + changement de direction sur touche un bord
+    ''' </summary>
+    ''' <remarks></remarks>
     Sub deplacer()
 
         Dim deplacement As New Point(0, 0)
@@ -94,14 +116,29 @@
         posGroupe += deplacement
     End Sub
 
+
+    ''' <summary>
+    ''' Retourne le nombre d'aliens restant
+    ''' </summary>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
     Function getNbAliens()
         Return aliens.Count
     End Function
 
+    ''' <summary>
+    ''' Retourne si le joueur a perdu ou non
+    ''' </summary>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
     Function getPerdu()
         Return perdu
     End Function
 
+    ''' <summary>
+    ''' Supprime tous les aliens du panel de jeu
+    ''' </summary>
+    ''' <remarks></remarks>
     Sub supprimerAliens()
         For Each alien As Alien In aliens
             Form1.pnlJeu.Controls.Remove(alien)
