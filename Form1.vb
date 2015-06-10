@@ -57,19 +57,19 @@
     End Sub
 
     Private Sub lancementPartie()
-        Me.Size = New Size(500, 400)
+        Me.Size = New Size(600, 500)
         pnlJeu.Size = Me.Size
         pnlJeu.Location = New Point(0, 0)
 
         tmrJeu = New Timer()
         joueur = New Vaisseau()
-        aliens = New GestionAliens(1, 2)
+        aliens = New GestionAliens(4, 6)
 
         lblScore = New Label()
         lblScore.Text = "Score :"
         lblScore.Font = New Font("Arial", 22)
         lblScore.AutoSize = True
-        lblScore.Location = New Point(pnlJeu.Width - lblScore.Width - 70, 5)
+        lblScore.Location = New Point(pnlJeu.Width - lblScore.Width - 80, 5)
         pnlJeu.Controls.Add(lblScore)
 
         pnlJeu.Controls.Add(joueur)
