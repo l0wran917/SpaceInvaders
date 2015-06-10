@@ -46,7 +46,7 @@
     ''' </summary>
     ''' <remarks></remarks>
     Sub tirer()
-        If (missileRestant > 0) Then
+        If (missileRestant <> 0) Then
             If (missile Is Nothing) Then
                 Dim missile As New Missile(Me)
                 Me.missile = missile
